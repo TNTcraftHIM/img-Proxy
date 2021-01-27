@@ -19,7 +19,7 @@ function getHost($url){
 	return $host;
 }
 
-if(empty($_GET["cache"])) echo "It works.";
+if(empty($_GET["cache"])) echo "你好呀~";
 else if ($_GET["cache"]) {
 	//$Allowed_Host=array("Volvo","BMW","SAAB");
 	
@@ -27,7 +27,7 @@ else if ($_GET["cache"]) {
 	
 	
 	if (!isValidUrl($URL)) {
-		echo "转接的URL不合法呢~";
+		echo "URL不合法~";
 		exit;
 	}
 	
