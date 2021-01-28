@@ -1,4 +1,4 @@
-# img-Proxy
+# img-ReverseProxy
 PHP图片反代
 在原作者的基础上修了一些Bug和逻辑，然后增加了内置referer功能
 
