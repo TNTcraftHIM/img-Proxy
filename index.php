@@ -14,33 +14,38 @@ function isValidUrl($url){
     $url) == 1;
 }
 function getHost($url){
-	preg_match("/^(http:\/\/)?([^\/]+)/i", $url, $matches); 
-	$host = $matches[2];
-	return $host;
+	preg_match("/^(http:\/\/|https:\/\/)?([^\/]+)/i", $url, $matches); 
+	return $matches;
+}
+function findReferer($host){
+	$dict=array( //指定网站的referer
+	'i.pximg.net'=> 'www.pixiv.net',
+	'domain'=> 'referer'
+	);
+	$referer = $dict[$host[2]];
+	if (empty($referer)) $referer=$host[0];
+	else if ($referer) $referer=$host[1].$referer;
+	return $referer;
 }
 
-if(empty($_GET["url"])) echo "参数错误 <br><br>可用参数：url <br>参数内容：图片URL";
+if(empty($_GET["url"])) echo "参数错误<br><br>可用参数：<br>url（必选）- 目标图片URL<br>ref（可选）- 请求头部Referer";
 else if ($_GET["url"]) {
-	//$Allowed_Host=array("Volvo","BMW","SAAB");
 	
 	$URL = $_GET["url"];
-	
 	
 	if (!isValidUrl($URL)) {
 		echo "URL不合法";
 		exit;
 	}
 	
-	
 	$Host = getHost($URL);
+	if ($_GET["ref"]) $referer = $_GET["ref"];
+	else if(empty($_GET["ref"])) $referer = findReferer($Host);
 	
-	if(empty($_GET["referer"])) $referer = $Host;
-	
-	//echo $_GET["url"];
 	$hdrs = array(
 	  'http' =>array('header' => 
 	   "Accept: image/webp,image/*,*/*;q=0.8\r\n" .
-	   "Referer: http://.".$referer."/\r\n" .
+	   "Referer: ".$referer."/\r\n" .
 	   "User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\r\n" .
 	   "Accept-Language: zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3\r\n",
 	   'timeout'=>5
