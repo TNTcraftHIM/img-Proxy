@@ -19,15 +19,15 @@ function getHost($url){
 	return $host;
 }
 
-if(empty($_GET["cache"])) echo "你好呀~";
-else if ($_GET["cache"]) {
+if(empty($_GET["url"])) echo "参数错误 <br><br>可用参数：url <br>参数内容：图片URL";
+else if ($_GET["url"]) {
 	//$Allowed_Host=array("Volvo","BMW","SAAB");
 	
-	$URL = $_GET["cache"];
+	$URL = $_GET["url"];
 	
 	
 	if (!isValidUrl($URL)) {
-		echo "URL不合法~";
+		echo "URL不合法";
 		exit;
 	}
 	
@@ -36,7 +36,7 @@ else if ($_GET["cache"]) {
 	
 	if(empty($_GET["referer"])) $referer = $Host;
 	
-	//echo $_GET["cache"];
+	//echo $_GET["url"];
 	$hdrs = array(
 	  'http' =>array('header' => 
 	   "Accept: image/webp,image/*,*/*;q=0.8\r\n" .
